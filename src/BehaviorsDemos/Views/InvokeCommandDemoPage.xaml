@@ -45,7 +45,7 @@
             </CollectionView>
             <Label x:Name="itemSelectedLabel">
                 <Label.Behaviors>
-                    <behaviors:EventHandlerBehavior EventName="ItemSelected"
+                    <behaviors:EventHandlerBehavior EventName="SelectionChanged"
                                                     SourceObject="{x:Reference collectionView}">
                         <behaviors:SetPropertyAction TargetObject="{x:Reference itemSelectedLabel}"
                                                      PropertyName="Text"
