@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:BehaviorsDemos.Views"
+             x:Class="BehaviorsDemos.Views.MainPage"
+             Title="Behaviors demos">
+    <TableView Intent="Menu">
+        <TableRoot>
+            <TableSection>
+                <TextCell Text="Invoke ICommands from XAML"
+                          Detail="InvokeCommandAction"
+                          Command="{Binding NavigateCommand}"
+                          CommandParameter="{x:Type views:InvokeCommandDemoPage}" />
+                <TextCell Text="Invoke methods from XAML"
+                          Detail="InvokeMethodAction"
+                          Command="{Binding NavigateCommand}"
+                          CommandParameter="{x:Type views:InvokeMethodDemoPage}" />
+                <TextCell Text="Set properties from XAML"
+                          Detail="SetPropertyAction"
+                          Command="{Binding NavigateCommand}"
+                          CommandParameter="{x:Type views:SetPropertyDemoPage}" />
+                <TextCell Text="Run animations from XAML"
+                          Detail="FadeAction, ScaleAction, RotateAction, TranslateAction"
+                          Command="{Binding NavigateCommand}"
+                          CommandParameter="{x:Type views:AnimationDemoPage}" />
+                <TextCell Text="Goto a VisualState from XAML"
+                          Detail="GoToStateAction"
+                          Command="{Binding NavigateCommand}"
+                          CommandParameter="{x:Type views:GoToStateDemoPage}" />
+            </TableSection>
+        </TableRoot>
+    </TableView>
+</ContentPage>

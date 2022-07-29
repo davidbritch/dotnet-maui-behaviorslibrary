@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
+             x:Class="BehaviorsDemos.Views.AnimationDemoPage"
+             Title="Animation demos">
+    <VerticalStackLayout Margin="20">
+        <Image x:Name="image"
+               Source="monkey.png"
+               Opacity="0"
+               VerticalOptions="Center" />
+        <Button x:Name="button"
+                Text="Run Animation">
+            <Button.Behaviors>
+                <behaviors:EventHandlerBehavior EventName="Clicked">
+                    <behaviors:SetPropertyAction TargetObject="{x:Reference button}"
+                                                 PropertyName="IsEnabled"
+                                                 Value="false" />
+                    <!-- Compound Animation -->
+                    <behaviors:FadeAction TargetObject="{x:Reference image}"
+                                          FinalOpacity="1.0"
+                                          Duration="2000"
+                                          Await="true" />
+                    <behaviors:ScaleAction TargetObject="{x:Reference image}"
+                                           FinalScale="2.0"
+                                           Duration="3000"
+                                           EasingFunction="SpringIn" />
+                    <behaviors:RotateAction TargetObject="{x:Reference image}"
+                                            FinalAngle="360"
+                                            Duration="3000"
+                                            Await="true" />
+                    <behaviors:ScaleAction TargetObject="{x:Reference image}"
+                                           FinalScale="1.0"
+                                           Duration="3000"
+                                           EasingFunction="SpringOut" />
+                    <behaviors:RotateAction TargetObject="{x:Reference image}"
+                                            FinalAngle="360"
+                                            Duration="3000"
+                                            IsRelative="true"
+                                            Await="true" />
+                    <!-- Translation Animation -->
+                    <!--					<behaviors:FadeAction TargetObject="{x:Reference image}" FinalOpacity="1.0" Duration="2000" Await="true" />
+					<behaviors:TranslateAction TargetObject="{x:Reference image}" X="-100" Y="0" Duration="1000" Await="true" />
+					<behaviors:TranslateAction TargetObject="{x:Reference image}" X="-100" Y="-100" Duration="1000" Await="true" />
+					<behaviors:TranslateAction TargetObject="{x:Reference image}" X="100" Y="100" Duration="1000" Await="true" />
+					<behaviors:TranslateAction TargetObject="{x:Reference image}" X="0" Y="100" Duration="1000" Await="true" />
+					<behaviors:TranslateAction TargetObject="{x:Reference image}" X="0" Y="0" Duration="1000" Await="true" />-->
+                    <!-- 3D Rotation Animation -->
+                    <!--					<behaviors:FadeAction TargetObject="{x:Reference image}" FinalOpacity="1.0" Duration="2000" Await="true" />
+					<behaviors:RotateAction TargetObject="{x:Reference image}" Duration="600000" FinalAngle="110520" />
+					<behaviors:RotateAction TargetObject="{x:Reference image}" Duration="600000" FinalAngle="90360" Axis="X" />
+					<behaviors:RotateAction TargetObject="{x:Reference image}" Duration="600000" FinalAngle="71640" Axis="Y" />-->
+                    <behaviors:SetPropertyAction TargetObject="{x:Reference button}"
+                                                 PropertyName="IsEnabled"
+                                                 Value="true" />
+                </behaviors:EventHandlerBehavior>
+            </Button.Behaviors>
+        </Button>
+    </VerticalStackLayout>
+</ContentPage>
