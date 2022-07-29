@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
+             xmlns:controls="clr-namespace:BehaviorsDemos.Controls"
+             xmlns:converters="clr-namespace:BehaviorsDemos.Converters"
+             xmlns:viewmodels="clr-namespace:BehaviorsDemos.ViewModels"
+             x:Class="BehaviorsDemos.Views.InvokeCommandDemoPage"
+             Title="InvokeCommand demo">
+    <ContentPage.BindingContext>
+        <viewmodels:InvokeCommandDemoPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <converters:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <behaviors:EventHandlerBehavior EventName="Appearing">
+            <behaviors:InvokeCommandAction Command="{Binding PageAppearingCommand}" />
+        </behaviors:EventHandlerBehavior>
+        <behaviors:EventHandlerBehavior EventName="Disappearing">
+            <behaviors:InvokeCommandAction Command="{Binding PageDisappearingCommand}" />
+        </behaviors:EventHandlerBehavior>
+    </ContentPage.Behaviors>
+
+    <Grid Margin="20"
+          RowDefinitions="0.5*,0.5*">
+        <VerticalStackLayout>
+            <Label Text="Invoke Commands when Event Fires"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <CollectionView x:Name="collectionView"
+                            ItemsSource="{Binding People}"
+                            SelectionMode="Single">
+                <CollectionView.Behaviors>
+                    <behaviors:EventHandlerBehavior EventName="SelectionChanged">
+                        <behaviors:InvokeCommandAction Command="{Binding ItemSelectedCommand}"
+                                                       Converter="{StaticResource SelectedItemConverter}" />
+                        <behaviors:InvokeCommandAction Command="{Binding OutputAgeCommand}"
+                                                       Converter="{StaticResource SelectedItemConverter}"
+                                                       ConverterParameter="35" />
+                    </behaviors:EventHandlerBehavior>
+                </CollectionView.Behaviors>
+            </CollectionView>
+            <Label x:Name="itemSelectedLabel">
+                <Label.Behaviors>
+                    <behaviors:EventHandlerBehavior EventName="ItemSelected"
+                                                    SourceObject="{x:Reference collectionView}">
+                        <behaviors:SetPropertyAction TargetObject="{x:Reference itemSelectedLabel}"
+                                                     PropertyName="Text"
+                                                     Value="Item selected in CollectionView." />
+                    </behaviors:EventHandlerBehavior>
+                </Label.Behaviors>
+            </Label>
+            <Label Text="{Binding SelectedItemText}" />
+            <Label Text="{Binding AgeText}" />
+            <controls:Separator />
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="1">
+            <Label Text="Invoke Command when Data Changes"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <Entry x:Name="entry"
+                   Placeholder="Enter .NET MAUI (case sensitive) here">
+                <Entry.Behaviors>
+                    <behaviors:DataChangedBehavior Binding="{Binding Path=Text, Source={x:Reference entry}}"
+                                                   ComparisonCondition="Equal"
+                                                   Value=".NET MAUI">
+                        <behaviors:InvokeCommandAction Command="{Binding OutputMessageCommand}" />
+                    </behaviors:DataChangedBehavior>
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding MessageText}" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

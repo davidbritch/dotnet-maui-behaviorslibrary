@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
+             xmlns:controls="clr-namespace:BehaviorsDemos.Controls"
+             xmlns:viewmodels="clr-namespace:BehaviorsDemos.ViewModels"
+             x:Class="BehaviorsDemos.Views.InvokeMethodDemoPage"
+             x:Name="page"
+             Title="InvokeMethod demo">
+    <VerticalStackLayout Margin="20">
+        <VerticalStackLayout.BindingContext>
+            <viewmodels:InvokeMethodDemoPageViewModel />
+        </VerticalStackLayout.BindingContext>
+        
+        <Label Text="Invoke a Method when Event Fires"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+        <VerticalStackLayout>
+            <HorizontalStackLayout>
+                <Label Text="ViewModel counter is:" />
+                <Label Text="{Binding Counter}" />
+            </HorizontalStackLayout>
+            <Button Text="Invoke ViewModel Method">
+                <Button.Behaviors>
+                    <behaviors:EventHandlerBehavior EventName="Clicked">
+                        <behaviors:InvokeMethodAction TargetObject="{Binding}"
+                                                      MethodName="IncrementCounter" />
+                    </behaviors:EventHandlerBehavior>
+                </Button.Behaviors>
+            </Button>
+        </VerticalStackLayout>
+        <VerticalStackLayout BindingContext="{x:Reference page}">
+            <HorizontalStackLayout>
+                <Label Text="Page counter is:" />
+                <Label Text="{Binding Counter}" />
+            </HorizontalStackLayout>
+            <Button Text="Invoke Page Method">
+                <Button.Behaviors>
+                    <behaviors:EventHandlerBehavior EventName="Clicked">
+                        <behaviors:InvokeMethodAction TargetObject="{Binding}"
+                                                      MethodName="OnButtonClicked" />
+                    </behaviors:EventHandlerBehavior>
+                </Button.Behaviors>
+            </Button>
+        </VerticalStackLayout>
+        <controls:Separator />
+        <VerticalStackLayout BindingContext="{x:Reference page}">
+            <Label Text="Invoke a Method when Data Changes"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <Label Text="Select an item in the picker to invoke a page method" />
+            <Picker x:Name="picker"
+                    Title="Colours">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Red</x:String>
+                        <x:String>Blue</x:String>
+                        <x:String>Green</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+                <Picker.Behaviors>
+                    <behaviors:DataChangedBehavior Binding="{Binding Path=SelectedIndex, Source={x:Reference picker}}"
+                                                   ComparisonCondition="NotEqual"
+                                                   Value="-1">
+                        <behaviors:InvokeMethodAction TargetObject="{Binding}"
+                                                      MethodName="OnPickerChanged" />
+                    </behaviors:DataChangedBehavior>
+                </Picker.Behaviors>
+            </Picker>
+            <HorizontalStackLayout>
+                <Label Text="Selected Item:" />
+                <Label x:Name="selectedItemLabel" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

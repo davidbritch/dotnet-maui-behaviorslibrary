@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:Behaviors;assembly=Behaviors"
+             xmlns:controls="clr-namespace:BehaviorsDemos.Controls"
+             x:Class="BehaviorsDemos.Views.GoToStateDemoPage"
+             Title="GoToState demo">
+    <VerticalStackLayout Margin="10">
+        <VerticalStackLayout>
+            <Label Text="Goto VisualState when Event Fires"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <Label Text="Select an item in the Picker:" />
+            <Picker x:Name="picker"
+                    Title="Colours">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Red</x:String>
+                        <x:String>Blue</x:String>
+                        <x:String>Green</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+                <Picker.Behaviors>
+                    <behaviors:EventHandlerBehavior EventName="SelectedIndexChanged">
+                        <behaviors:GoToStateAction StateName="PickerItemSelected"
+                                                   TargetObject="{x:Reference stackLayout}" />
+                    </behaviors:EventHandlerBehavior>
+                </Picker.Behaviors>
+            </Picker>
+            <Label Text="Selecting an item in the Picker will enable content below." />
+        </VerticalStackLayout>
+        <controls:Separator />
+        <VerticalStackLayout x:Name="stackLayout"
+                             IsVisible="false">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup Name="PickerStates">
+                    <VisualState Name="PickerItemSelected">
+                        <VisualState.Setters>
+                            <Setter Property="IsVisible"
+                                    Value="true" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState Name="None" />
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Label Text="Goto VisualState when Data Changes"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <Label Text="Enter text:"
+                   FontSize="20" />
+            <Entry x:Name="entry"
+                   FontSize="20"
+                   Margin="30,0,0,0">
+                <Entry.Behaviors>
+                    <behaviors:DataChangedBehavior Binding="{Binding Path=Text, Source={x:Reference entry}}"
+                                                   ComparisonCondition="NotEqual"
+                                                   Value=".NET MAUI">
+                        <behaviors:GoToStateAction StateName="Invalid"
+                                                   TargetObject="{x:Reference helpLabel}" />
+                        <behaviors:GoToStateAction StateName="Invalid"
+                                                   TargetObject="{x:Reference submitButton}" />
+                    </behaviors:DataChangedBehavior>
+                    <behaviors:DataChangedBehavior Binding="{Binding Path=Text, Source={x:Reference entry}}"
+                                                   ComparisonCondition="Equal"
+                                                   Value=".NET MAUI">
+                        <behaviors:GoToStateAction StateName="Valid"
+                                                   TargetObject="{x:Reference helpLabel}" />
+                        <behaviors:GoToStateAction StateName="Valid"
+                                                   TargetObject="{x:Reference submitButton}" />
+                    </behaviors:DataChangedBehavior>
+                </Entry.Behaviors>
+            </Entry>
+            <Label x:Name="helpLabel"
+                   Text="Enter .NET MAUI (case sensitive) in the entry above.">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="ValidityStates">
+                        <VisualState Name="Valid">
+                            <VisualState.Setters>
+                                <Setter Property="TextColor"
+                                        Value="Transparent" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Invalid" />
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Label>
+            <Button x:Name="submitButton"
+                    Text="Submit"
+                    IsEnabled="false"
+                    FontSize="20"
+                    Margin="0,20"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="ValidityStates">
+                        <VisualState Name="Valid">
+                            <VisualState.Setters>
+                                <Setter Property="IsEnabled"
+                                        Value="True" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Invalid">
+                            <VisualState.Setters>
+                                <Setter Property="IsEnabled"
+                                        Value="False" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
