@@ -1,4 +1,4 @@
-# .NET MAUI behaviours librayr
+# .NET MAUI behaviours library
 
 A behaviours and actions library for .NET MAUI.
 
