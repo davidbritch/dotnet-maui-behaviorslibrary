@@ -7,8 +7,8 @@ namespace BehaviorsDemos.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var eventArgs = value as SelectionChangedEventArgs;
-            var person = eventArgs.CurrentSelection.FirstOrDefault() as Person;
+            var eventArgs = value as SelectedItemChangedEventArgs;
+            var person = eventArgs.SelectedItem as Person;
 
             if (parameter != null)
             {

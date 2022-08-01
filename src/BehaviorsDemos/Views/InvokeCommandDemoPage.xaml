@@ -30,26 +30,25 @@
             <Label Text="Invoke Commands when Event Fires"
                    FontAttributes="Bold"
                    HorizontalOptions="Center" />
-            <CollectionView x:Name="collectionView"
-                            ItemsSource="{Binding People}"
-                            SelectionMode="Single">
-                <CollectionView.Behaviors>
-                    <behaviors:EventHandlerBehavior EventName="SelectionChanged">
+            <ListView x:Name="listView"
+                      ItemsSource="{Binding People}">
+                <ListView.Behaviors>
+                    <behaviors:EventHandlerBehavior EventName="ItemSelected">
                         <behaviors:InvokeCommandAction Command="{Binding ItemSelectedCommand}"
                                                        Converter="{StaticResource SelectedItemConverter}" />
                         <behaviors:InvokeCommandAction Command="{Binding OutputAgeCommand}"
                                                        Converter="{StaticResource SelectedItemConverter}"
                                                        ConverterParameter="35" />
                     </behaviors:EventHandlerBehavior>
-                </CollectionView.Behaviors>
-            </CollectionView>
+                </ListView.Behaviors>
+            </ListView>
             <Label x:Name="itemSelectedLabel">
                 <Label.Behaviors>
-                    <behaviors:EventHandlerBehavior EventName="SelectionChanged"
-                                                    SourceObject="{x:Reference collectionView}">
+                    <behaviors:EventHandlerBehavior EventName="ItemSelected"
+                                                    SourceObject="{x:Reference listView}">
                         <behaviors:SetPropertyAction TargetObject="{x:Reference itemSelectedLabel}"
                                                      PropertyName="Text"
-                                                     Value="Item selected in CollectionView." />
+                                                     Value="Item selected in ListView." />
                     </behaviors:EventHandlerBehavior>
                 </Label.Behaviors>
             </Label>
